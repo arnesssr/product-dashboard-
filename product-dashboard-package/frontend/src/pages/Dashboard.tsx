@@ -8,6 +8,30 @@ import { useProducts } from '../context/ProductContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+interface Product {
+  id: string;
+  productName: string;
+  price: number;
+  status: 'Published' | 'Draft';
+  description: string;
+  imageUrl: string;
+  category: string;
+}
+
+interface CategoryData {
+  name: string;
+  count: number;
+  percentage: number;
+  color: string;
+}
+
+interface StatsCard {
+  title: string;
+  value: number;
+  icon: JSX.Element;
+  percentageChange: number;
+}
+
 const Dashboard = () => {
   const { products, loading, error, fetchProducts, deleteProduct } = useProducts();
   const { user } = useAuth();
@@ -22,10 +46,10 @@ const Dashboard = () => {
   
   // Calculate stats
   const totalProducts = products.length;
-  const publishedProducts = products.filter(p => p.status === 'Published').length;
-  const draftProducts = products.filter(p => p.status === 'Draft').length;
+  const publishedProducts: number = products.filter((p: Product) => p.status === 'Published').length;
+  const draftProducts: number = products.filter((p: Product) => p.status === 'Draft').length;
   
-  const statsCards = [
+  const statsCards: StatsCard[] = [
     { 
       title: 'Total Products', 
       value: totalProducts, 
@@ -53,18 +77,22 @@ const Dashboard = () => {
   ];
   
   // Calculate category distribution
-  const categoryCounts = products.reduce((acc, product) => {
-    const category = product.category || 'Other';
-    acc[category] = (acc[category] || 0) + 1;
-    return acc;
-  }, {});
+  interface CategoryCount {
+    [key: string]: number;
+  }
+
+  const categoryCounts: CategoryCount = products.reduce((acc: CategoryCount, product: Product) => {
+      const category = product.category || 'Other';
+      acc[category] = (acc[category] || 0) + 1;
+      return acc;
+  }, {} as CategoryCount);
   
-  const categoryData = Object.keys(categoryCounts).map((name, index) => {
+  const categoryData: CategoryData[] = Object.keys(categoryCounts).map((name) => {
     const count = categoryCounts[name];
     const percentage = totalProducts > 0 ? Math.round((count / totalProducts) * 100) : 0;
     
     // Assign colors based on category
-    const colors = {
+    const colors: Record<string, string> = {
       'Books': '#4F46E5',
       'Bibles': '#10B981',
       'Journals': '#F59E0B',
@@ -79,11 +107,11 @@ const Dashboard = () => {
     };
   });
   
-  const handleEditProduct = (id) => {
+  const handleEditProduct = (id: string) => {
     navigate(`/products/edit/${id}`);
   };
   
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteProduct = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await deleteProduct(id);
@@ -100,6 +128,15 @@ const Dashboard = () => {
   if (error) {
     return <div className="text-red-500 p-4 border border-red-300 rounded-md">{error}</div>;
   }
+  
+  const recentProducts = products.map((p: Product) => ({
+    id: p.id,
+    name: p.productName,
+    price: p.price,
+    status: p.status,
+    description: p.description,
+    imageUrl: p.imageUrl
+  }));
   
   return (
     <div>
@@ -127,14 +164,7 @@ const Dashboard = () => {
         </div>
         <div>
           <RecentProducts 
-            products={products.map(p => ({
-              id: p.id,
-              name: p.productName,
-              price: p.price,
-              status: p.status,
-              description: p.description,
-              imageUrl: p.imageUrl
-            }))}
+            products={recentProducts}
             onEdit={handleEditProduct}
             onDelete={handleDeleteProduct}
           />

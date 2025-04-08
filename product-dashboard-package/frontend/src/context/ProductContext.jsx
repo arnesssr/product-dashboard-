@@ -1,10 +1,37 @@
+/**
+ * @typedef {Object} Product
+ * @property {string} id
+ * @property {string} name
+ * @property {string} category
+ * @property {number} price
+ * @property {string} description
+ * @property {string} imageUrl
+ */
+
+/**
+ * @typedef {Object} ProductContextType
+ * @property {Product[]} products
+ * @property {string[]} categories
+ * @property {boolean} loading
+ * @property {string|null} error
+ * @property {() => Promise<void>} fetchProducts
+ * @property {() => Promise<void>} fetchCategories
+ * @property {(product: Product) => Promise<Product>} addProduct
+ * @property {(id: string, product: Product) => Promise<Product>} updateProduct
+ * @property {(id: string) => Promise<void>} deleteProduct
+ * @property {(file: File) => Promise<string>} uploadImage
+ */
+
 import { createContext, useContext, useState, useEffect } from 'react';
 import * as api from '../lib/api';
 
 // Create context
 const ProductContext = createContext();
 
-// Context provider component
+/**
+ * Context provider component
+ * @param {{ children: React.ReactNode }} props
+ */
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);

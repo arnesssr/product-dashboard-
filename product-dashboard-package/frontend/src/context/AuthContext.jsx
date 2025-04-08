@@ -1,3 +1,21 @@
+/**
+ * @typedef {Object} User
+ * @property {string} id
+ * @property {string} name
+ * @property {string} email
+ * @property {string} role
+ * @property {string|null} avatar
+ */
+
+/**
+ * @typedef {Object} AuthContextType
+ * @property {User|null} user
+ * @property {boolean} isAuthenticated
+ * @property {(email: string, password: string) => boolean} login
+ * @property {() => void} logout
+ * @property {(userData: Partial<User>) => void} updateProfile
+ */
+
 import { createContext, useContext, useState } from 'react';
 
 // Create context
