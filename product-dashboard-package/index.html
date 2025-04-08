@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Dashboard</title>
+    <!-- React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- React Router -->
+    <script src="https://unpkg.com/react-router-dom@6/dist/umd/react-router-dom.production.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Additional Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/recharts@2.12.0/umd/Recharts.min.js"></script>
+    <!-- Load your CSS -->
+    <link href="src/index.css" rel="stylesheet">
+    <link href="src/App.css" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module">
+        // Import your app components directly
+        import App from './src/App.jsx';
+        import { ProductProvider } from './src/context/ProductContext.jsx';
+        import { AuthProvider } from './src/context/AuthContext.jsx';
+        
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            React.createElement(React.StrictMode, null,
+                React.createElement(AuthProvider, null,
+                    React.createElement(ProductProvider, null,
+                        React.createElement(App)
+                    )
+                )
+            )
+        );
+    </script>
+</body>
+</html>
