@@ -1,9 +1,0 @@
-#root {
-  width: 100%;
-  min-height: 100vh;
-}
-
-/* Remove conflicting styles */
-.logo, .card, .read-the-docs {
-  display: none;
-}
