@@ -139,14 +139,20 @@ const Dashboard = () => {
   }));
   
   return (
-    <div>
-      <WelcomeBanner 
-        userName={user?.name || 'User'} 
-        newOrders={newOrders} 
-        productsToReview={productsToReview} 
-      />
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+        <div className="flex items-center gap-4">
+          <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            Download Report
+          </button>
+          <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+            Add Product
+          </button>
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {statsCards.map((card, index) => (
           <StatsCard 
             key={index}
@@ -154,20 +160,25 @@ const Dashboard = () => {
             value={card.value}
             icon={card.icon}
             percentageChange={card.percentageChange}
+            className="p-6 bg-card text-card-foreground shadow-sm rounded-lg"
           />
         ))}
       </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <AnalyticsSection categoryData={categoryData} />
+
+      <div className="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-7">
+        <div className="lg:col-span-4 space-y-4">
+          <div className="p-6 bg-card text-card-foreground shadow-sm rounded-lg">
+            <AnalyticsSection categoryData={categoryData} />
+          </div>
         </div>
-        <div>
-          <RecentProducts 
-            products={recentProducts}
-            onEdit={handleEditProduct}
-            onDelete={handleDeleteProduct}
-          />
+        <div className="lg:col-span-3 space-y-4">
+          <div className="p-6 bg-card text-card-foreground shadow-sm rounded-lg">
+            <RecentProducts 
+              products={recentProducts}
+              onEdit={handleEditProduct}
+              onDelete={handleDeleteProduct}
+            />
+          </div>
         </div>
       </div>
     </div>
