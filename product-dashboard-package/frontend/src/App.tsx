@@ -10,11 +10,11 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <Router>
-      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
         <Sidebar />
         <div className="flex-1 ml-64">
           <TopNavigation />
-          <main className="p-8">
+          <main className="p-8 mt-16">
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products/add" element={<AddProduct />} />
